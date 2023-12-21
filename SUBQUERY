@@ -1,0 +1,32 @@
+A subquery to find out how many of the TOP 5 customers are based within each country.
+
+SELECT D.country, COUNT(A.customer_id) AS
+COUNT(top_5_customers) AS
+FROM customer A
+INNER JOIN address B ON A.address_id = B.address_id
+INNER JOIN city C ON B.city_id = C.city_id
+INNER JOIN country D ON C.country_id = D.country_id
+LEFT JOIN
+(SELECT A.last_name AS customer_last_name,
+     A.first_name AS customer_first_name,
+     A.customer_id,
+     C.city, D.country,
+SUM(E.amount) AS total_amount_paid
+FROM customer A
+INNER JOIN address B ON A.address_id = B.address_id
+INNER JOIN city C ON B.city_id = C.city_id
+INNER JOIN country D ON C.country_id = D.country_id
+INNER JOIN payment E ON A.customer_id = E.customer_id
+WHERE city IN('Aurora', 'Acua', 'Citrus Heights', 'Iwaki',
+'Ambattur', 'Shanwei', 'So Leopoldo', 'Teboksary', 'Tianjin',
+'Cianjur')
+ all_customer_count,
+ top_customer_count
+GROUP BY A.customer_id, customer_last_name,
+customer_first_name, city, country
+ORDER BY total_amount_paid DESC
+LIMIT 5) AS top_5_customers ON A.customer_id =
+top_5_customers.customer_id
+GROUP BY D.country
+HAVING COUNT (top_5_customers) > 0
+ORDER BY COUNT(top_5_customers), COUNT(A.customer_id) DESC
