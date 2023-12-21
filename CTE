@@ -1,0 +1,22 @@
+An SQL query with a common table expression (CTE) to find the average amount paid by the top 5 customers.
+
+WITH total_amount_paid_cte(customer_id, customer_last_name,
+customer_first_name, city, country, total_amount_paid)
+AS
+(SELECT A. customer_id, A.last_name AS customer_last_name,
+A. first_name AS customer_first_name, C.city, D.country,
+SUM(E.amount) AS total_amount_paid
+FROM customer A
+INNER JOIN address B ON A.address_id = B.address_id
+INNER JOIN city C ON B.city_id = C.city_id
+INNER JOIN country D ON C.country_id = D.country_id
+INNER JOIN payment E ON A.customer_id = E.customer_id
+WHERE city IN('Aurora', 'Acua', 'Citrus Heights', 'Iwaki',
+'Ambattur', 'Shanwei', 'So Leopoldo', 'Teboksary', 'Tianjin',
+'Cianjur')
+GROUP BY A.customer_id, customer_last_name,
+customer_first_name, city, country
+ORDER BY
+COUNT (amount)
+SELECT AVG (total_amount_paid) AS average
+FROM total_amount_paid_cte
