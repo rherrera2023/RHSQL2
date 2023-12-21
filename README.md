@@ -12,7 +12,7 @@ Which movies contributed the most/least revenue gain?
 What was the average rental duration for all videos?
 Which countries are Rockbuster customers based in?
 Where are customers with a high lifetime value based?
-Do sales figures vary between geographic regions'
+Do sales figures vary between geographic regions?
 
 # DATA-DRIVEN ANSWERS
 
@@ -22,7 +22,7 @@ All of Rockbuster's data was loaded into a relational databse management system.
 
 Information about Rockbuster's film inventory, customers and payments including the following two fact tables and 13 dimension tables:
 
-Fact Tables: Payment and Rental
+Fact Tables: Payment and Rental; 
 Dimension Tables: 
 Actor     City      Film             Inventory      Store
 Address   Country   Film Actor       Language
